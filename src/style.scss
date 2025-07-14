@@ -240,3 +240,38 @@ select:focus {
     border-color: #382240;
     background-color: #f6e8c9;
 }
+
+.toggle {
+  background: #3d2358;
+  border-radius: 100px;
+  padding: 10px;
+  display: flex;
+  width: 300px;
+  position: relative;
+  justify-content: space-between;
+  color: #fef1cc;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.option {
+  flex: 1;
+  text-align: center;
+  z-index: 2;
+}
+
+.highlight {
+  position: absolute;
+  background: #7e5d8d;
+  border-radius: 100px;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  width: calc(50% - 10px);
+  transition: left 0.3s;
+  z-index: 1;
+}
+
+.right .highlight {
+  left: 50%;
+}
