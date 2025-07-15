@@ -1,0 +1,17 @@
+[
+    {
+        "challange": "Harrentfernung auf Budget",
+        "description": "Die Mitspielenden dürfen der Spieler*in Klebeband auf eine Stelle mit Körperbehaarung kleben und durch schnelles Abreisen, die Haare entfernen",
+        "prerequisites": [
+            "Körperhaare",
+            "Klebeband"
+        ]
+    },
+    {
+        "challange": "Seifen Sommelier*in",
+        "description": "Die Spieler*in muss ein Teelöffel Seife für mindestens 30 Sekunden im Mund halten. Wird die Seife zuvor ausgespuckt, ist die Challange fehlgeschlagen.",
+        "prerequisites": [
+            "Seife"
+        ]
+    }
+]

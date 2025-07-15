@@ -33,7 +33,7 @@ function createTestStore() {
     return store
 }
 
-describe('Macherlies Settings Store - Game Flow', () => {
+describe('Settings Store - Game Flow', () => {
 
     describe('getters', () => {
         let store: ReturnType<typeof useGameStore>
@@ -322,7 +322,7 @@ describe('Macherlies Settings Store - Game Flow', () => {
     })
 })
 
-describe('Macherlies Settings Store - Game Exit', () => {
+describe('Settings Store - Game Exit', () => {
     it('should reset the game settings when exiting', () => {
         const store = createTestStore()
         store.changeScore(5)
