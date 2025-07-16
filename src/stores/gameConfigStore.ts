@@ -32,7 +32,8 @@ export const useGameConfigStore = defineStore('game-config-store', {
         getPlayers: (state) => state.gameConfigStore.players,
         getRounds: (state) => state.gameConfigStore.rounds,
         getTimePerRound: (state) => state.gameConfigStore.timePerRound,
-        getIsSpicy: (state) => state.gameConfigStore.isSpicy
+        getIsSpicy: (state) => state.gameConfigStore.isSpicy,
+        getPlayerById: (state) => (playerId: number) => state.gameConfigStore.players.find((player) => player.id === playerId),
     },
     actions: {
         // Public Actions
@@ -42,7 +43,7 @@ export const useGameConfigStore = defineStore('game-config-store', {
         setIsSpicy(isSpicy: boolean) {
             this.gameConfigStore.isSpicy = isSpicy;
         },
-        setGetTimePerRound(timePerRound: number) {
+        setTimePerRound(timePerRound: number) {
             this.gameConfigStore.timePerRound = Math.max(30, timePerRound);
         },
         addPlayer(playerDTO: PlayerDTO) {
