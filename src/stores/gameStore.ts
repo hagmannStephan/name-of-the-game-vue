@@ -30,7 +30,7 @@ export interface GameStore {
     // Change round when last player of bigger group finished turn
     maxPlayersGroup?: number,
     currentRound?: number,
-    currentGroupIndex?: number,
+    currentGroupId?: number,
     currentGameMode?: string,
     currentWordList?: string,
     // Each player gets per round three free skips
@@ -50,7 +50,7 @@ export const useGameStore = defineStore('game-store', {
             // Game State
             maxPlayersGroup: 0,
             currentRound: 0,
-            currentGroupIndex: 0,
+            currentGroupId: 0,
             currentGameMode: '',
             currentWordList: '',
             currentSkipsLeft: 0,
@@ -65,15 +65,15 @@ export const useGameStore = defineStore('game-store', {
         getAllowedWordLists: (state) => state.gameStore.allowedWordLists,
         getMaxPlayersGroup: (state) => state.gameStore.maxPlayersGroup,
         getCurrentRound: (state) => state.gameStore.currentRound,
-        getCurrentGroupIndex: (state) => state.gameStore.currentGroupIndex,
+        getcurrentGroupId: (state) => state.gameStore.currentGroupId,
         getCurrentGameMode: (state) => state.gameStore.currentGameMode,
         getCurrentWordList: (state) => state.gameStore.currentWordList,
         getCurrentSkipsLeft: (state) => state.gameStore.currentSkipsLeft,
-        getCurrentPlayer: (state) => state.gameStore.groups[state.gameStore.currentGroupIndex || 0]?.players[state.gameStore.groups[state.gameStore.currentGroupIndex || 0]?.currentPlayerIndex || 0] || null,
-        getCurrentGroup: (state) => state.gameStore.groups[state.gameStore.currentGroupIndex || 0] || null,
+        getCurrentPlayer: (state) => state.gameStore.groups[state.gameStore.currentGroupId || 0]?.players[state.gameStore.groups[state.gameStore.currentGroupId || 0]?.currentPlayerIndex || 0] || null,
+        getCurrentGroup: (state) => state.gameStore.groups[state.gameStore.currentGroupId || 0] || null,
         getOpposingGroup: (state) => {
-            const currentGroupIndex = state.gameStore.currentGroupIndex || 0;
-            const opposingGroupIndex = (currentGroupIndex + 1) % state.gameStore.groups.length;
+            const currentGroupId = state.gameStore.currentGroupId || 0;
+            const opposingGroupIndex = (currentGroupId + 1) % state.gameStore.groups.length;
             return state.gameStore.groups[opposingGroupIndex] || null;
         }
     },
@@ -108,7 +108,7 @@ export const useGameStore = defineStore('game-store', {
             });
 
             this.gameStore.currentRound = 0;
-            this.gameStore.currentGroupIndex = 0;
+            this.gameStore.currentGroupId = 0;
             this.initTurn();
         },
         initTurn() {
@@ -166,7 +166,7 @@ export const useGameStore = defineStore('game-store', {
         },
         changeScore(score: number) {
             // Change score of current group
-            const currentGroup = this.gameStore.groups[this.gameStore.currentGroupIndex || 0];
+            const currentGroup = this.gameStore.groups[this.gameStore.currentGroupId || 0];
             if (currentGroup) {
                 currentGroup.score = (currentGroup.score || 0) + score;
             }
@@ -184,7 +184,7 @@ export const useGameStore = defineStore('game-store', {
             this.initTurn();
 
             // Increment current player index
-            const currentGroup = this.gameStore.groups[this.gameStore.currentGroupIndex || 0];
+            const currentGroup = this.gameStore.groups[this.gameStore.currentGroupId || 0];
             if (currentGroup) {
                 currentGroup.currentPlayerIndex = (currentGroup.currentPlayerIndex ?? 0) + 1;
 
@@ -207,10 +207,10 @@ export const useGameStore = defineStore('game-store', {
             }
 
             // If not last round, continue to next group
-            this.gameStore.currentGroupIndex = (this.gameStore.currentGroupIndex || 0) + 1;
+            this.gameStore.currentGroupId = (this.gameStore.currentGroupId || 0) + 1;
 
-            if (this.gameStore.currentGroupIndex >= this.gameStore.groups.length) {
-                this.gameStore.currentGroupIndex = 0;
+            if (this.gameStore.currentGroupId >= this.gameStore.groups.length) {
+                this.gameStore.currentGroupId = 0;
             }
 
             return {gameOver: false};
@@ -224,7 +224,7 @@ export const useGameStore = defineStore('game-store', {
             allowedWordLists: [],
             maxPlayersGroup: 0,
             currentRound: 0,
-            currentGroupIndex: 0,
+            currentGroupId: 0,
             currentGameMode: '',
             currentWordList: '',
             currentSkipsLeft: 0

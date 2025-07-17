@@ -63,7 +63,7 @@ const startGame = () => {
     gameModes: selectedGameModes.value,
     allowedWordLists: selectedWordLists.value,
     currentRound: 0,
-    currentGroupIndex: 0
+    currentGroupId: 0
   });
 
   // Navigate to the game view

@@ -106,7 +106,7 @@ describe('Settings Store - Game Flow', () => {
 
             expect(store.gameStore.maxPlayersGroup).toBe(1)
             expect(store.gameStore.currentRound).toBe(0)
-            expect(store.gameStore.currentGroupIndex).toBe(0)
+            expect(store.gameStore.currentGroupId).toBe(0)
             expect(['pantomime', 'describe']).toContain(store.gameStore.currentGameMode)
             expect(store.gameStore.currentSkipsLeft).toBe(3)
         })
@@ -143,8 +143,8 @@ describe('Settings Store - Game Flow', () => {
 
         it('check if first turn is initialized correctly', () => {
             expect(store.gameStore.currentRound).toBe(0)
-            expect(store.gameStore.currentGroupIndex).toBe(0)
-            expect(store.getGroups[store.getCurrentGroupIndex ?? 0].currentPlayerIndex).toBe(0)
+            expect(store.gameStore.currentGroupId).toBe(0)
+            expect(store.getGroups[store.getcurrentGroupId ?? 0].currentPlayerIndex).toBe(0)
         })
 
         it('check if points get added correctly', () => {
@@ -152,7 +152,7 @@ describe('Settings Store - Game Flow', () => {
                 store.changeScore(1)
             }
 
-            expect(store.getGroups[store.getCurrentGroupIndex ?? 0].score).toBe(3)
+            expect(store.getGroups[store.getcurrentGroupId ?? 0].score).toBe(3)
         })
 
         it('check if points get subtracted correctly', () => {
@@ -160,7 +160,7 @@ describe('Settings Store - Game Flow', () => {
                 store.changeScore(-1)
             }
 
-            expect(store.getGroups[store.getCurrentGroupIndex ?? 0].score).toBe(-1)
+            expect(store.getGroups[store.getcurrentGroupId ?? 0].score).toBe(-1)
         })
 
         it('check if skips work as expected', () => {
@@ -177,16 +177,16 @@ describe('Settings Store - Game Flow', () => {
             }
 
             expect(store.getCurrentSkipsLeft).toBe(0)
-            expect(store.getGroups[store.getCurrentGroupIndex ?? 0].score).toBe(-2)
+            expect(store.getGroups[store.getcurrentGroupId ?? 0].score).toBe(-2)
         })
 
         it('check if second turn initializes correctly', () => {
             store.continueToNextPlayer()
 
             expect(store.getCurrentRound).toBe(0)
-            expect(store.getCurrentGroupIndex).toBe(1)
-            expect(store.getGroups[store.getCurrentGroupIndex ?? 0].currentPlayerIndex).toBe(0)
-            expect(store.getGroups[store.getCurrentGroupIndex ?? 0].score).toBe(0)
+            expect(store.getcurrentGroupId).toBe(1)
+            expect(store.getGroups[store.getcurrentGroupId ?? 0].currentPlayerIndex).toBe(0)
+            expect(store.getGroups[store.getcurrentGroupId ?? 0].score).toBe(0)
             expect(store.getCurrentSkipsLeft).toBe(3)
         })
     })
@@ -207,17 +207,17 @@ describe('Settings Store - Game Flow', () => {
             }
 
             expect(store.getCurrentRound).toBe(1)
-            expect(store.getCurrentGroupIndex).toBe(0)
-            expect(store.getGroups[store.getCurrentGroupIndex ?? 0].currentPlayerIndex).toBe(1)
-            expect(store.getGroups[store.getCurrentGroupIndex ?? 0].score).toBe(5)
+            expect(store.getcurrentGroupId).toBe(0)
+            expect(store.getGroups[store.getcurrentGroupId ?? 0].currentPlayerIndex).toBe(1)
+            expect(store.getGroups[store.getcurrentGroupId ?? 0].score).toBe(5)
         })
 
         it('should initialize the second turn of the second round correctly', () => {
             store.continueToNextPlayer()
 
             expect(store.getCurrentRound).toBe(1)
-            expect(store.getCurrentGroupIndex).toBe(1)
-            expect(store.getGroups[store.getCurrentGroupIndex ?? 0].currentPlayerIndex).toBe(0)
+            expect(store.getcurrentGroupId).toBe(1)
+            expect(store.getGroups[store.getcurrentGroupId ?? 0].currentPlayerIndex).toBe(0)
         })
     })
 
@@ -338,7 +338,7 @@ describe('Settings Store - Game Exit', () => {
             allowedWordLists: [],
             maxPlayersGroup: 0,
             currentRound: 0,
-            currentGroupIndex: 0,
+            currentGroupId: 0,
             currentGameMode: '',
             currentWordList: '',
             currentSkipsLeft: 0

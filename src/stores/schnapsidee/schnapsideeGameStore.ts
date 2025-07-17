@@ -1,7 +1,10 @@
 import { defineStore } from "pinia";
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 interface Group {
-    id?: number;
+    id: number;
     name: string;
     score?: number;
     playerIds?: number[];
@@ -19,7 +22,7 @@ interface SchnapsideeGameStore {
     // Change round when last player of bigger group finished turn
     maxPlayersGroup?: number,
     currentRound?: number,
-    currentGroupIndex?: number,
+    currentGroupId?: number,
     currentGameMode?: string,
     currentWordList?: string,
     // Each player gets per round three free skips
@@ -30,11 +33,20 @@ interface SchnapsideeGameStore {
 export const useSchnapsideeStore = defineStore('schnapsidee-game-store', {
     state: (): { schnapsideeGameStore: SchnapsideeGameStore } => ({
         schnapsideeGameStore: {
-            gameModes: [],
-            groups: [],
+            gameModes: ['pantomime', 'draw', 'describe'],
+            groups: [
+                {
+                    "id": 0,
+                    "name": t('schnapsidee.config.groups.default', { num: 1 })
+                },
+                {
+                    "id": 1,
+                    "name": t('schnapsidee.config.groups.default', { num: 2 })
+                }
+            ],
             maxPlayersGroup: 0,
             currentRound: 0,
-            currentGroupIndex: 0,
+            currentGroupId: 0,
             currentGameMode: '',
             currentWordList: '',
             currentSkipsLeft: 0
@@ -44,7 +56,7 @@ export const useSchnapsideeStore = defineStore('schnapsidee-game-store', {
     getters: {
         getCurrentGameMode: (state) => state.schnapsideeGameStore.currentGameMode,
         getCurrentRound: (state) => state.schnapsideeGameStore.currentRound,
-        getCurrentGroupIndex: (state) => state.schnapsideeGameStore.currentGroupIndex,
+        getcurrentGroupId: (state) => state.schnapsideeGameStore.currentGroupId,
         getMaxPlayersPerGroup: (state) => state.schnapsideeGameStore.maxPlayersGroup,
         getAvailableGameModes: (state) => state.schnapsideeGameStore.gameModes,
         getCurrentWordList: (state) => state.schnapsideeGameStore.currentWordList,
@@ -75,7 +87,25 @@ export const useSchnapsideeStore = defineStore('schnapsidee-game-store', {
             }
         },
         initGame() {
+            let maxPlayers = 0;     // Track which group is the maxPlayersGroup
+            this.schnapsideeGameStore.groups.forEach((group) => {
+                group.score = 0;
+                if (group.playerIds && group.playerIds.length >= 2) {
+                    if(group.playerIds.length >= maxPlayers) {
+                        this.schnapsideeGameStore.maxPlayersGroup = group.id;
+                        maxPlayers = group.playerIds.length;
+                    }
 
+                    group.currentPlayerIndex = 0;
+                } else {
+                    console.error(`Group ${group.id} has not enougth players!`);
+                    return;
+                }
+
+                this.schnapsideeGameStore.currentRound = 0;
+                this.schnapsideeGameStore.currentGroupId = 0;
+            });
+            
         },
         initTurn() {
 
