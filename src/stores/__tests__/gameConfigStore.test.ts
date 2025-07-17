@@ -45,41 +45,26 @@ describe('Game Config Store', () => {
             expect(store.getTimePerRound).toEqual(90);
         })
 
-        it('should add player as expected (without groupId)', () => {
+        it('should add player as expected', () => {
             store.addPlayer({
                 "name": "Steffla Cheffla",
             })
             expect(store.getPlayers).toEqual([
                 {
-                    "groupId": undefined,
                     "id": 1,
                     "name": "Steffla Cheffla"
                 }
             ])
         })
 
-        it('should add player as expected (with groupId)', () => {
-            store.addPlayer({
-                "name": "Franz Ferdindand",
-                "groupId": 1
-            })
-            expect(store.getPlayers).toEqual(
-                expect.arrayContaining([
-                    expect.objectContaining({
-                        "groupId": 1,
-                        "id": 2,
-                        "name": "Franz Ferdindand"
-                    })
-                ])
-            )
-        })
-
         it('should remove player as expected', () => {
+            store.addPlayer({
+                "name": "Franz Ferdindand"
+            })
             store.removePlayer(1)
             expect(store.getPlayers.length).toEqual(1)
             expect(store.getPlayers).toEqual([
                 {
-                        "groupId": 1,
                         "id": 1,
                         "name": "Franz Ferdindand"
                 }
@@ -89,10 +74,8 @@ describe('Game Config Store', () => {
         it('should modify player as expected', () => {
             store.modifyPlayer({
                 "name": "Mattea Meyer",
-                "groupId": 2
             }, 1)
             expect(store.getPlayers).toEqual([{
-                "groupId": 2,
                 "id": 1,
                 "name": "Mattea Meyer",
             }])
@@ -106,18 +89,15 @@ describe('Game Config Store', () => {
         it('should get correct player by id', () =>  {
             store.addPlayer({
                 "name": "Steffla Cheffla",
-                "groupId": 2
             })
             store.addPlayer({
                 "name": "Mattea Meyer"
             })
             store.addPlayer({
                 "name": "Franz Ferdinand",
-                "groupId": 1
             })
 
             expect(store.getPlayerById(2)).toEqual({
-                "groupId": undefined,
                 "id": 2,
                 "name": "Mattea Meyer"
             })

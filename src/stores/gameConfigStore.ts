@@ -1,14 +1,12 @@
 import { defineStore } from "pinia";
 
-interface Player {
+export interface Player {
     id: number;
     name: string;
-    groupId?: number;
 }
 
 interface PlayerDTO {
     name: string;
-    groupId?: number;
 }
 
 interface GameConfigStore {
@@ -50,7 +48,6 @@ export const useGameConfigStore = defineStore('game-config-store', {
             let player = {
                 id: this.gameConfigStore.players.length + 1,
                 name: playerDTO.name,
-                groupId: playerDTO.groupId,
             }
 
             this.gameConfigStore.players.push(player)
@@ -67,7 +64,6 @@ export const useGameConfigStore = defineStore('game-config-store', {
         modifyPlayer(playerDTO: PlayerDTO, id: number) {
             if (id >= 1 && id <= this.gameConfigStore.players.length) {
                 this.gameConfigStore.players[id - 1].name = playerDTO.name;
-                this.gameConfigStore.players[id - 1].groupId = playerDTO.groupId;
             }
         }
     }
