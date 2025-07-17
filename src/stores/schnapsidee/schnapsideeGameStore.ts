@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-import { useGameConfigStore } from "../gameConfigStore";
 
 interface Group {
     id?: number;
@@ -50,11 +49,39 @@ export const useSchnapsideeStore = defineStore('schnapsidee-game-store', {
         getAvailableGameModes: (state) => state.schnapsideeGameStore.gameModes,
         getCurrentWordList: (state) => state.schnapsideeGameStore.currentWordList,
         getSkipsLeft: (state) => state.schnapsideeGameStore.currentSkipsLeft,
+        getGroups: (state) => state.schnapsideeGameStore.groups,
+        getGroupById: (state) => (id: number) => state.schnapsideeGameStore.groups.find(group => group.id === id),
     },
     actions: {
         setGameModes(gameModes: string[]) {
             this.schnapsideeGameStore.gameModes = gameModes;
         },
+        addPlayerToGroup(playerId: number, groupId: number) {
+            const group = this.getGroupById(groupId);
+            if (group) {
+                group.playerIds = [...(group.playerIds || []), playerId];
+            }
+        },
+        removePlayerFromGroup(playerId: number, groupId: number) {
+            const group = this.getGroupById(groupId);
+            if (group && group.playerIds) {
+                group.playerIds = group.playerIds.filter(id => id!== playerId);
+            }
+        },
+        changeGroupName(name: string, groupId: number) {
+            const group = this.getGroupById(groupId);
+            if (group) {
+                group.name = name;
+            }
+        },
+        initGame() {
 
+        },
+        initTurn() {
+
+        },
+        deductSkript() {
+            this.schnapsideeGameStore.currentSkipsLeft = (this.schnapsideeGameStore.currentSkipsLeft || 3) - 1;
+        },
     }
 })
