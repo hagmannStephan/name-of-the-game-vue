@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { useI18n } from 'vue-i18n';
+import { useGameConfigStore } from "../gameConfigStore";
 
 const { t } = useI18n();
 
@@ -63,6 +64,10 @@ export const useSchnapsideeStore = defineStore('schnapsidee-game-store', {
         getSkipsLeft: (state) => state.schnapsideeGameStore.currentSkipsLeft,
         getGroups: (state) => state.schnapsideeGameStore.groups,
         getGroupById: (state) => (id: number) => state.schnapsideeGameStore.groups.find(group => group.id === id),
+        getPlayerIdByCurrentPlayerIndex: (state) => (index: number, groupID: number) => {
+            const group = state.schnapsideeGameStore.groups.find(group => group.id === groupID);
+            return group?.playerIds?.[index - 1];
+        },
     },
     actions: {
         setGameModes(gameModes: string[]) {
@@ -108,6 +113,21 @@ export const useSchnapsideeStore = defineStore('schnapsidee-game-store', {
             
         },
         initTurn() {
+            let group = this.getGroupById(this.schnapsideeGameStore.currentGroupId || 0);
+
+            if(!group){
+                console.error(`Group with id ${this.schnapsideeGameStore.currentGroupId} not found!`);
+                return;
+            }
+
+            if (typeof group.currentPlayerIndex === 'undefined') {
+                group.currentPlayerIndex = 1;
+            }
+
+            const currentPlayerId = 
+
+            const gameConfigStore = useGameConfigStore();
+            gameConfigStore.getPlayerById()
 
         },
         deductSkript() {
